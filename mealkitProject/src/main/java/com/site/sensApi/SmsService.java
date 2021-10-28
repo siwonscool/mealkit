@@ -27,7 +27,7 @@ public class SmsService {
 		
 		messages.add(new MessagesRequestDto(recipientPhoneNumber, content));
 		
-		SmsRequestDto smsRequestDto = new SmsRequestDto("SMS", "COMM", "82", "01093093928", "MangoLtd", messages);
+		SmsRequestDto smsRequestDto = new SmsRequestDto("SMS", "COMM", "82", "", "MangoLtd", messages);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		String jsonBody = objectMapper.writeValueAsString(smsRequestDto);
