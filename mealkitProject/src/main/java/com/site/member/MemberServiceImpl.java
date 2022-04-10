@@ -8,7 +8,7 @@ import com.site.vo.MemberVo;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-	
+
 	@Autowired
 	private MemberMapper memberMapper;
 	
@@ -20,7 +20,6 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVo login(String id, String pw) {
 		MemberVo memberVo = memberMapper.selectId(id);
 		if(passwordEncoder.matches(pw, memberVo.getPw())) { // login form의 pw와 db의 pw 비교
-			
 		} else { // pw가 같지 않을 경우
 			memberVo = null;
 		}
@@ -29,32 +28,28 @@ public class MemberServiceImpl implements MemberService {
 	
 //	멤버 회원가입 아이디 체크
 	@Override
-	public int registerCheckId(String id) {
-		int result = memberMapper.registerCheckId(id);
-		return result;
+	public int checkRegisterId(String id) {
+		return memberMapper.registerCheckId(id);
 	}
 
 //	멤버 회원가입
 	@Override
 	public int register(MemberVo memberVo) {
 		memberVo.setPw(passwordEncoder.encode(memberVo.getPw())); // bcryt로 pw를 인코딩해서 db에 저장
-		int result = memberMapper.register(memberVo);
-		return result;
+		return memberMapper.register(memberVo);
 	}
 
 //	회원정보 수정페이지 이동
 	@Override
 	public MemberVo findMemberInfo(String id) {
-		MemberVo memberVo = memberMapper.selectId(id);
-		return memberVo;
+		return memberMapper.selectId(id);
 	}
 
 //	회원정보 수정
 	@Override
-	public int update(MemberVo memberVo) {
+	public int updateMemberInfo(MemberVo memberVo) {
 		memberVo.setPw(passwordEncoder.encode(memberVo.getPw())); // bcryt로 pw 인코딩
-		int rs = memberMapper.update(memberVo);
-		return rs;
+		return memberMapper.update(memberVo);
 	}
 
 

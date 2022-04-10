@@ -8,7 +8,7 @@ public interface AdminService {
 
 	Map<String, Object> memberList(AdminMemberListVo memberListVo);
 
-	int memberDelete(String id);
+	int deleteMember(String id);
 	
 	Map<String, Object> orderView();
 	

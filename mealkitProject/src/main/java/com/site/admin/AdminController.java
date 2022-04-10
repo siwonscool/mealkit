@@ -36,35 +36,32 @@ public class AdminController {
 	public void memberList(AdminMemberListVo memberListVo, Model model){
 		model.addAttribute("memberListMap", adminService.memberList(memberListVo));
 	}
-	
 //	회원정보 수정
 	@GetMapping("/memberUpdate")
-	public String memberUpdate(@RequestParam String id, Model model) {
+	public String updateMember(@RequestParam String id, Model model) {
 		MemberVo memberVo = memberService.findMemberInfo(id);
 		model.addAttribute(memberVo);
-		return "/admin/member_update";
+		return "/admin/memberUpdate";
 	}
 	
 	@PostMapping("/memberUpdate")
 	@ResponseBody
-	public int memberUpdate(MemberVo memberVo) {
-		int result = memberService.update(memberVo);
-		return result;
+	public int updateMember(MemberVo memberVo) {
+		return memberService.updateMemberInfo(memberVo);
 	}
 	
 //	회원정보 수정 아이디 체크
 	@RequestMapping("/memberCheckId")
 	@ResponseBody
-	public int memberCheckId(@RequestParam String id) {
-		int result = memberService.registerCheckId(id);
-		return result;
+	public int checkMemberId(@RequestParam String id) {
+		return memberService.checkRegisterId(id);
 	}
 	
 //	회원정보 삭제
 	@RequestMapping("/memberDelete")
-	public String memberDelete(@RequestParam String id) {
-		adminService.memberDelete(id);
-		return "/admin/member_list";
+	public String deleteMember(@RequestParam String id) {
+		adminService.deleteMember(id);
+		return "/admin/memberList";
 	}
 
 //	챠트

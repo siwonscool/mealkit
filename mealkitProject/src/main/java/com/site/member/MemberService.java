@@ -8,7 +8,7 @@ public interface MemberService {
 	MemberVo login(String id, String pw);
 	
 //	멤버 회원가입 아이디 체크
-	int registerCheckId(String id);
+	int checkRegisterId(String id);
 
 //	멤버 회원가입
 	int register(MemberVo memberVo);
@@ -17,6 +17,6 @@ public interface MemberService {
 	MemberVo findMemberInfo(String id);
 
 //	회원정보 수정
-	int update(MemberVo memberVo);
+	int updateMemberInfo(MemberVo memberVo);
 
 }

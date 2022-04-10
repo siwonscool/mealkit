@@ -59,7 +59,7 @@ public class AdminServiceImpl implements AdminService {
 
 //	회원정보 삭제
 	@Override
-	public int memberDelete(String id) {
+	public int deleteMember(String id) {
 		int result = adminMapper.DeleteMember(id);
 		return result;
 	} 

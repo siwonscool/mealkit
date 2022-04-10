@@ -53,7 +53,7 @@ public class MemberController {
 	@PostMapping("/registerCheckId")
 	@ResponseBody
 	public int registerCheckId(@RequestParam String id) {
-		int result = memberService.registerCheckId(id);
+		int result = memberService.checkRegisterId(id);
 		return result;
 	}
 	
@@ -103,7 +103,7 @@ public class MemberController {
 	@PostMapping("/update")
 	@ResponseBody
 	public int update(MemberVo memberVo) {
-		int result = memberService.update(memberVo);
+		int result = memberService.updateMemberInfo(memberVo);
 		return result;
 	}
 //★★★★★★★★★★★★★★★★★★★★★끝★★★★★★★★★★★★★★★★★★★★★★
