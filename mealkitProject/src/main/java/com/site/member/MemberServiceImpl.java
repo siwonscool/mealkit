@@ -42,10 +42,9 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
-//★★★★★★★★★★★★★★★★★★★★★명수★★★★★★★★★★★★★★★★★★★★★
 //	회원정보 수정페이지 이동
 	@Override
-	public MemberVo updateView(String id) {
+	public MemberVo findMemberInfo(String id) {
 		MemberVo memberVo = memberMapper.selectId(id);
 		return memberVo;
 	}
@@ -57,13 +56,6 @@ public class MemberServiceImpl implements MemberService {
 		int rs = memberMapper.update(memberVo);
 		return rs;
 	}
-//★★★★★★★★★★★★★★★★★★★★★끝★★★★★★★★★★★★★★★★★★★★★★
 
-//____________________________기원______________________
-	@Override
-	public MemberVo memberInfoList(MemberVo memberVo) {
-		MemberVo mVo = memberMapper.memberInfoList(memberVo);
-		return mVo;
-	}
 
 }

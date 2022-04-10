@@ -31,12 +31,10 @@
 		select * from
 		(select rownum rnum, m.* from (select * from member
 		<where>
-			<if
-				test="(searchWord != null and searchWord != '') and (category != null and category != '')">
+			<if test="(searchWord != null and searchWord != '') and (category != null and category != '')">
 				${category} = #{searchWord}
 			</if>
-			<if
-				test="(searchWord != null and searchWord != '') and (category == null or category == '')">
+			<if test="(searchWord != null and searchWord != '') and (category == null or category == '')">
 				id=#{searchWord} or pw=#{searchWord} or nickname=#{searchWord}
 				or name=#{searchWord} or dob=#{searchWord} or email=#{searchWord} or
 				tel=#{searchWord} or point=#{searchWord} or rank=#{searchWord}
@@ -127,15 +125,6 @@
 		<!-- 요기까지 -->
 		group by 환불여부
 	</select>
-
-
-
-
-
-
-
-
-
 
 
 	<!-- __________________________________검색 관련______________________________________ -->

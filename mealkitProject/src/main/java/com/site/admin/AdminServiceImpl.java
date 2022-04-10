@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.site.admin.dto.MemberListNumberingDto;
+import com.site.admin.vo.AdminMemberListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,36 +18,41 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private AdminMapper adminMapper;
 
-//	회원정보 리스트 출력
 	@Override
-	public Map<String, Object> memberList(int page, String category, String order, String searchWord) {
+	public Map<String, Object> memberList(AdminMemberListVo adminMemberListVo) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-//		회원정보 리스트 카운트
-		int listCount = adminMapper.memberListCount(category, order, searchWord);
-		int limit = 20;
-		int numlimit= 5;
-		int maxPage = (int)((double)listCount/limit+0.9999);
-		int startPage = (((int)((double)page/numlimit+0.9999))-1)*numlimit+1;
-		int endPage = startPage+numlimit-1;
-		if(endPage>maxPage) endPage = maxPage;
+		int listCount = adminMapper.CountMemberList(
+				adminMemberListVo.getCategory()
+				,adminMemberListVo.getOrder()
+				,adminMemberListVo.getSearchWord());
+
+		MemberListNumberingDto numberingDto = new MemberListNumberingDto(
+				adminMemberListVo
+				,listCount
+				,20
+				,5);
 		
-		int startRow = (page-1)*limit+1;
-		int endRow = startRow +limit-1;
-		
-		ArrayList<MemberVo> list = adminMapper.memberList(startRow, endRow, category, order, searchWord);
+		ArrayList<MemberVo> list = adminMapper.memberList(
+				numberingDto.getStartRow()
+				,numberingDto.getEndRow()
+				,adminMemberListVo.getCategory()
+				,adminMemberListVo.getOrder()
+				,adminMemberListVo.getSearchWord());
+
 		if(list.isEmpty()) {
 			map.put("flag", 1);
 		}
+
 		map.put("listCount", listCount);
-		map.put("page", page);
-		map.put("maxPage", maxPage);
-		map.put("startPage", startPage);
-		map.put("endPage", endPage);
+		map.put("page", adminMemberListVo.getPage());
+		map.put("maxPage", numberingDto.getMaxPage());
+		map.put("startPage", numberingDto.getStartPage());
+		map.put("endPage", numberingDto.getEndPage());
 		map.put("list", list);
-		map.put("category", category);
-		map.put("order", order);
-		map.put("searchWord", searchWord);
+		map.put("category", adminMemberListVo.getCategory());
+		map.put("order", adminMemberListVo.getOrder());
+		map.put("searchWord", adminMemberListVo.getSearchWord());
 		
 		return map;
 	}
@@ -53,7 +60,7 @@ public class AdminServiceImpl implements AdminService {
 //	회원정보 삭제
 	@Override
 	public int memberDelete(String id) {
-		int result = adminMapper.memberDelete(id);
+		int result = adminMapper.DeleteMember(id);
 		return result;
 	} 
 	//차트

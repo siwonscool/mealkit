@@ -16,11 +16,8 @@ public interface MemberMapper {
 //	멤버 회원가입
 	int register(MemberVo memberVo);
 
-//★★★★★★★★★★★★★★★★★★★★★명수★★★★★★★★★★★★★★★★★★★★★
 //	회원정보 수정
 	int update(MemberVo memberVo);
-//★★★★★★★★★★★★★★★★★★★★★끝★★★★★★★★★★★★★★★★★★★★★★
 
-	MemberVo memberInfoList(MemberVo memberVo);
 
 }

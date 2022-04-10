@@ -2,8 +2,8 @@ package com.site.admin;
 
 import java.util.Map;
 
+import com.site.admin.vo.AdminMemberListVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,15 +33,14 @@ public class AdminController {
 	
 	@PostMapping("/memberList")
 	@ResponseBody
-	public Map<String, Object> memberList(@RequestParam(value = "page", defaultValue = "1") int page , @RequestParam @Nullable String category, @RequestParam(value = "order", defaultValue = "asc") String order, @RequestParam @Nullable String searchWord){
-		Map<String, Object> map = adminService.memberList(page, category, order, searchWord);
-		return map;
+	public void memberList(AdminMemberListVo memberListVo, Model model){
+		model.addAttribute("memberListMap", adminService.memberList(memberListVo));
 	}
 	
 //	회원정보 수정
 	@GetMapping("/memberUpdate")
 	public String memberUpdate(@RequestParam String id, Model model) {
-		MemberVo memberVo = memberService.updateView(id);
+		MemberVo memberVo = memberService.findMemberInfo(id);
 		model.addAttribute(memberVo);
 		return "/admin/member_update";
 	}

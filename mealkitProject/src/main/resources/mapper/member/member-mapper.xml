@@ -32,10 +32,5 @@
 		addr=#{addr}, addr1=#{addr1}, email_flag=#{email_flag}, sms_flag=#{sms_flag}, point=#{point}, rank=#{rank}, picture=#{picture} where id=#{id}
 	</update>
 	<!--★★★★★★★★★★★ 끝 ★★★★★★★★★★★-->
-	
-	<!-- __________기원______________ -->
-	<select id="memberInfoList" resultType="com.site.vo.MemberVo" parameterType="com.site.vo.MemberVo">
-	select * from member where id=#{id}
-	</select>
 
 </mapper>

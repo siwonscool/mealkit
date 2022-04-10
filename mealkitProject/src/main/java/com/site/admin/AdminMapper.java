@@ -11,13 +11,13 @@ import com.site.vo.MemberVo;
 public interface AdminMapper {
 
 //	회원정보 리스트 카운트
-	int memberListCount(String category, String order, String searchWord);
+	int CountMemberList(String category, String order, String searchWord);
 
 //	회원정보 리스트 출력
 	ArrayList<MemberVo> memberList(int startRow, int endRow, String category, String order, String searchWord);
 
 //	회원정보 삭제
-	int memberDelete(String id);
+	int DeleteMember(String id);
 
 //	챠트
 	ArrayList<ChartVo> orderView();

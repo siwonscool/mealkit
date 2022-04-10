@@ -44,11 +44,10 @@ public class OrderController {
 	//주문페이지- 장바구니에서 선택한 상품만 리스트출력
 	@RequestMapping("/order")
 	public String order(@RequestParam List<String> list,HttpSession session, Model model) {
-		MemberVo memberVo = new MemberVo();
-		memberVo.setId((String)session.getAttribute("session_id"));
+		String session_id = (String) session.getAttribute("session_id");
 		Map<String, Object> map = cartService.orderCartList(list);
 		model.addAttribute("map",map);
-		memberVo = memberService.memberInfoList(memberVo);//회원정보 들고오기
+		MemberVo memberVo = memberService.findMemberInfo(session_id);//회원정보 들고오기
 		String tel1 = memberVo.getTel().substring(3,7);
 		String tel2 = memberVo.getTel().substring(7,11);
 		model.addAttribute("memberVo",memberVo);

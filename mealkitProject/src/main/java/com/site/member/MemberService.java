@@ -13,15 +13,10 @@ public interface MemberService {
 //	멤버 회원가입
 	int register(MemberVo memberVo);
 
-//★★★★★★★★★★★★★★★★★★★★★명수★★★★★★★★★★★★★★★★★★★★★
 //	회원정보 수정페이지 이동
-	MemberVo updateView(String id);
+	MemberVo findMemberInfo(String id);
 
 //	회원정보 수정
 	int update(MemberVo memberVo);
-//★★★★★★★★★★★★★★★★★★★★★끝★★★★★★★★★★★★★★★★★★★★★★
-
-//__________________________기원________________________
-	MemberVo memberInfoList(MemberVo memberVo);
 
 }

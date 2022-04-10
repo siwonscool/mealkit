@@ -94,7 +94,7 @@ public class MemberController {
 	@GetMapping("/update")
 	public String update(HttpSession session, Model model) {
 		String id = (String) session.getAttribute("session_id");
-		MemberVo memberVo = memberService.updateView(id);
+		MemberVo memberVo = memberService.findMemberInfo(id);
 		model.addAttribute("memberVo", memberVo);
 		return "member/update";
 	}
