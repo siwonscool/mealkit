@@ -129,7 +129,7 @@
                 </div>
                 
 
-<c:forEach items="${map.list}" var="cartList" varStatus="status">
+<c:forEach items="${memberCartList.list}" var="cartList" varStatus="status">
 <!-- forEach 로 장바구니 불러오기 시작 -->
 			<div class="row data">
                     <div class="subdiv">

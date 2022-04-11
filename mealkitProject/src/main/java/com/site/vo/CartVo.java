@@ -1,29 +1,20 @@
 package com.site.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data@NoArgsConstructor@AllArgsConstructor@Builder
+@Getter
 public class CartVo {
-	
-	private int id, product_id, amount, quantity;
-	private String member_id, status;
-	
-	private String product_name, picture;
+	@Setter
+	private int id;
+	private int productId;
+	private int amount;
+	private int quantity;
+	@Setter
+	private String memberId;
+	private String status;
+	private String productName;
+	private String picture;
 	private int price;
-	
-	
-//	//Summary & List 용
-//	private int refundAmount;
-//	private int refundPrice;
-//	
-//	private String name;
-//	private int totalAmount;
-//	private int totalPrice;
-//	
-//	private String refund_flag;
 	
 	
 }

@@ -1,5 +1,6 @@
 package com.site.cart;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,17 +8,15 @@ import com.site.vo.CartVo;
 
 public interface CartService {
 
-	int cartInsert(CartVo cartVo);
+	int insertProductInCart(CartVo cartVo);
 
-	Map<String, Object> memberCartList(String member_id);
+	ArrayList<CartVo> findMemberCartList(String member_id);
 
-	void cartAmountUpdate(CartVo cartVo);
+	void updateCartAmount(CartVo cartVo);
 
-	void cartOneDel(CartVo cartVo);
+	void deleteOneProductInCart(CartVo cartVo);
 
-	void cartSelectDel(CartVo cartVo);
-
-	int cartAllDel(CartVo cartVo);
+	int deleteAllProductInCart(CartVo cartVo);
 
 	//선택한상품만 주문 리스트 출력
 	Map<String, Object> orderCartList(List<String> list);
