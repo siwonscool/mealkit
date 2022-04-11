@@ -28,13 +28,5 @@ public class OrderVo {
 	
 	private int price, amount;
 	private String picture, name, delivery_num, orderdate;
-	
-	
-//	private String totalAmount, totalPrice, month, year;
-//	
-//	
-//	
-//	private String product_name;
-//	private int amount; 
-//	private int quantity; 
+
 }

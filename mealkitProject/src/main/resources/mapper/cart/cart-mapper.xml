@@ -42,9 +42,9 @@
 	</delete>
 	
 	<!-- 선택한상품만 주문 리스트 출력 -->
-	<select id="orderCartList" resultType="com.site.vo.CartVo">
+	<select id="findCartInfo" resultType="com.site.vo.CartVo">
 		select p.name product_name, p.price, p.picture, c.id, c.amount from product p, cart c 
-		where p.id = c.product_id and c.id=#{list}
+		where p.id = c.product_id and c.id=#{cartId}
 	</select>
 	
 </mapper>

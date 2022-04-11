@@ -18,7 +18,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public MemberListNumberingDto memberList(AdminMemberPageVo adminMemberListVo) {
-		return new MemberListNumberingDto(adminMemberListVo,20,5);
+		return new MemberListNumberingDto(adminMemberListVo,20,5, adminMapper);
 	}
 
 	@Override
@@ -61,12 +61,12 @@ public class AdminServiceImpl implements AdminService {
 		datepicker2 = datepicker2.substring(0,4)+"-"+datepicker2.substring(4);
 		datepicker2 = datepicker2.substring(0,7)+"-"+datepicker2.substring(7);
 
-		return new ChartListVo(definePeriod(datepicker1,datepicker2,period)
+		return new ChartListVo(defineOrderPeriod(datepicker1,datepicker2,period)
 				,adminMapper.findTableList(datepicker1,datepicker2)
 				,adminMapper.findTableSummary(datepicker1,datepicker2));
 	}
 
-	public ArrayList<ChartVo> definePeriod(String datepicker1, String datepicker2, String period){
+	public ArrayList<ChartVo> defineOrderPeriod(String datepicker1, String datepicker2, String period){
 		ArrayList<ChartVo> chartVoList;
 		switch (period){
 			case "day":

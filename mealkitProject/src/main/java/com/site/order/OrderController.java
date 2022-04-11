@@ -7,7 +7,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.site.cart.vo.SelectedProductListVo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,27 +28,23 @@ import com.site.vo.ReviewVo;
 
 @Controller
 @RequestMapping("/order")
+@RequiredArgsConstructor
 public class OrderController {
 
-	@Autowired
-	private OrderService orderService;
-	@Autowired
-	private CartService cartService;
-	@Autowired
-	private MemberService memberService;
-	@Autowired
-	private ProductService productService;
+	private final OrderService orderService;
+	private final CartService cartService;
+	private final MemberService memberService;
+	private final ProductService productService;
 	
 	@Value("${fileUrlReview}")
     private String path;
 	
-	//주문페이지- 장바구니에서 선택한 상품만 리스트출력
 	@RequestMapping("/order")
-	public String order(@RequestParam List<String> list,HttpSession session, Model model) {
+	public String selectedProductToOrderInCart(@RequestParam List<String> selectedProductList, HttpSession session, Model model) {
 		String session_id = (String) session.getAttribute("session_id");
-		Map<String, Object> map = cartService.orderCartList(list);
-		model.addAttribute("map",map);
-		MemberVo memberVo = memberService.findMemberInfo(session_id);//회원정보 들고오기
+		SelectedProductListVo selectedProductListVo = cartService.selectedProductListInCart(selectedProductList);
+		model.addAttribute("selectedProductListVo",selectedProductListVo);
+		MemberVo memberVo = memberService.findMemberInfo(session_id);
 		String tel1 = memberVo.getTel().substring(3,7);
 		String tel2 = memberVo.getTel().substring(7,11);
 		model.addAttribute("memberVo",memberVo);
@@ -120,15 +117,11 @@ public class OrderController {
 		//reviewPicture 테이블에 사진저장
 		List<MultipartFile> fileList = multi.getFiles("file");
         String src = multi.getParameter("src");
-        System.out.println("src value : " + src);
 
         for (MultipartFile mf : fileList) {
             String originFileName = mf.getOriginalFilename(); // 원본 파일 명
             long fileSize = mf.getSize(); // 파일 사이즈
             long time = System.currentTimeMillis();
-            System.out.println("originFileName : " + originFileName);
-            System.out.println("fileSize : " + fileSize);
-            System.out.println("path : "+path);
             String safeFile = path + time + originFileName;
             try {
                 mf.transferTo(new File(safeFile));

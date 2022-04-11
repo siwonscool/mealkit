@@ -2,9 +2,10 @@ package com.site.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data@NoArgsConstructor@AllArgsConstructor
+@Getter
 public class ChartVo {
 
 	//Summary & List 용
@@ -15,11 +16,12 @@ public class ChartVo {
 	private int totalAmount;
 	private int totalPrice;
 	
-	private String refund_flag;
+	private String refundFlag;
 
-	private String month, year;
+	private String month;
+	private String year;
 	
-	private String product_name;
+	private String productName;
 	private int amount; 
 	private int quantity; 
 	

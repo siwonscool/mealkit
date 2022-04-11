@@ -6,15 +6,25 @@ import lombok.*;
 public class CartVo {
 	@Setter
 	private int id;
+	
 	private int productId;
-	private int amount;
-	private int quantity;
+
+	private int productAmount;
+
+	private int productQuantity;
+
+	private int productPrice;
+
 	@Setter
 	private String memberId;
-	private String status;
+
+	private String orderStatus;
+
 	private String productName;
-	private String picture;
-	private int price;
-	
-	
+
+	private String productPicture;
+
+	public CartVo(String memberId) {
+		this.memberId = memberId;
+	}
 }

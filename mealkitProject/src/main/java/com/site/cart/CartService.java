@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.site.cart.vo.SelectedProductListVo;
 import com.site.vo.CartVo;
 
 public interface CartService {
 
 	int insertProductInCart(CartVo cartVo);
 
-	ArrayList<CartVo> findMemberCartList(String member_id);
+	ArrayList<CartVo> findMemberCartList(String memberId);
 
 	void updateCartAmount(CartVo cartVo);
 
@@ -18,7 +19,6 @@ public interface CartService {
 
 	int deleteAllProductInCart(CartVo cartVo);
 
-	//선택한상품만 주문 리스트 출력
-	Map<String, Object> orderCartList(List<String> list);
+	SelectedProductListVo selectedProductListInCart(List<String> cartIdList);
 
 }

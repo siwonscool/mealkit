@@ -255,7 +255,7 @@ label:active {
 							<!-- 아이템 wrap -->
 							<div class="container">
 								<!-- 0912 장바구니에서 선택된 상품만 forEach로 리스트 출력 시작-->
-								<c:forEach items="${map.lists}" var="cartList">
+								<c:forEach items="${selectedProductListVo.selectedProductList}" var="cartList">
 									<div class="col-lg-12 p-3 flex">
 										<!-- 이미지 -->
 										<div style="width: 80px;">
@@ -396,7 +396,7 @@ label:active {
 									<div class="text-black">
 
 										<c:set var="totals" value="0" />
-										<c:forEach items="${map.lists }" var="result" varStatus="status">
+										<c:forEach items="${selectedProductListVo.selectedProductList }" var="result" varStatus="status">
 									+ <fmt:formatNumber value="${result.price * result.amount}" groupingUsed="true" />
 											<c:set var="total" value="${total+(result.price*result.amount)}" />
 									원<br>
@@ -503,8 +503,8 @@ Essential Scripts
 					url:"/kakao/kakaoPay",
 					data:{
 						"total":${total},
-						"count":${map.lists_count},
-						"cart_id":'${map.cart_id}',
+						"count":${selectedProductListVo.selectedProductList},
+						"cart_id":'${selectedProductListVo.cartId}',
 						"delivery_area" : $("#ClickAddr_Html").val()+" "+$("#ClickAddr2_Html").val(),
 						"recipient":$("#ClickName_Html").val(),
 						"sender":$("#ClickName").val()

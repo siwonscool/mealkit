@@ -48,13 +48,12 @@ public class CartController {
 		cartService.deleteOneProductInCart(cartVo);
 	}
 	
-//	장바구니 선택 삭제
 	@RequestMapping("/cartSelectDel")
 	@ResponseBody
 	public int deleteSelectedProductInCart(@RequestParam int[] id, HttpSession session) {
-		String member_id = (String) session.getAttribute("session_id");
-		CartVo cartVo = new CartVo();
-		cartVo.setMemberId(member_id);
+		String memberId = (String) session.getAttribute("session_id");
+		CartVo cartVo = new CartVo(memberId);
+
 		for(int i=0; i < id.length; i++) {
 			cartVo.setId(id[i]);
 			cartService.deleteOneProductInCart(cartVo);
@@ -65,9 +64,8 @@ public class CartController {
 	@RequestMapping("/cartAllDel")
 	@ResponseBody
 	public int deleteAllProductInCart(HttpSession session) {
-		String member_id = (String) session.getAttribute("session_id");
-		CartVo cartVo = new CartVo();
-		cartVo.setMemberId(member_id);
+		String memberId = (String) session.getAttribute("session_id");
+		CartVo cartVo = new CartVo(memberId);
 		return cartService.deleteAllProductInCart(cartVo);
 	}
 

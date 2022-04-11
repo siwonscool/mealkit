@@ -1,10 +1,9 @@
 package com.site.cart;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import com.site.cart.vo.SelectedProductListVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +25,8 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public ArrayList<CartVo> findMemberCartList(String member_id) {
-		return cartMapper.findMemberCartList(member_id);
+	public ArrayList<CartVo> findMemberCartList(String memberId) {
+		return cartMapper.findMemberCartList(memberId);
 	}
 
 	@Override
@@ -42,30 +41,25 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public int deleteAllProductInCart(CartVo cartVo) {
-		int result = cartMapper.deleteAllProductInCart(cartVo);
-		return result;
+		return cartMapper.deleteAllProductInCart(cartVo);
 	}
 
-//	선택한상품만 주문 리스트 출력
 	@Override
-	public Map<String, Object> orderCartList(List<String> list){
-        Map<String, Object> map = new HashMap<String, Object>();
-        ArrayList<CartVo> lists = new ArrayList<CartVo>();
-        CartVo cartVo = null;
-        String cart_id="";
-        for(int i=0; i<list.size(); i++){
-            cartVo = cartMapper.orderCartList(list.get(i));
-            lists.add(cartVo);
-            if(i==0) {
-            	cart_id+=cartVo.getId();
+	public SelectedProductListVo selectedProductListInCart(List<String> cartIdList){
+        List<CartVo> cartList = new ArrayList<>();
+        StringBuilder cartId = new StringBuilder();
+
+        for(int i = 0; i < cartIdList.size(); i++){
+            CartVo cartVo = cartMapper.findCartInfo(cartIdList.get(i));
+            cartList.add(cartVo);
+            if( i == 0) {
+            	cartId.append(cartVo.getId());
             }else {
-            	cart_id+="/"+cartVo.getId();
+            	cartId.append("/" + cartVo.getId());
             }
         }
-        map.put("lists_count", lists.size());
-        map.put("lists", lists);
-        map.put("cart_id", cart_id);
-        return map;
+
+        return new SelectedProductListVo(cartList,cartList.size(),cartId.toString());
     }
 	
 }

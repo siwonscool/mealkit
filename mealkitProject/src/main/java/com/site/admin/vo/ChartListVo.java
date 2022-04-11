@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 @AllArgsConstructor
 public class ChartListVo {
-    private ArrayList<ChartVo> list ;
+    private ArrayList<ChartVo> chartList;
     private ArrayList<ChartVo> tableList;
     private ArrayList<ChartVo> tableSummary;
 }

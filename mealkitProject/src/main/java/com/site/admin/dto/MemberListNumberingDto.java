@@ -3,15 +3,16 @@ package com.site.admin.dto;
 import com.site.admin.AdminMapper;
 import com.site.admin.vo.AdminMemberPageVo;
 import com.site.vo.MemberVo;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 
 @Getter
+@RequiredArgsConstructor
 public class MemberListNumberingDto {
-    @Autowired
-    private AdminMapper adminMapper;
 
     private AdminMemberPageVo memberListVo;
     private ArrayList<MemberVo> memberList;
@@ -25,7 +26,7 @@ public class MemberListNumberingDto {
     private int endRow;
     private int flag;
 
-    public MemberListNumberingDto(AdminMemberPageVo memberListVo, int limit, int numLimit) {
+    public MemberListNumberingDto(AdminMemberPageVo memberListVo, int limit, int numLimit, AdminMapper adminMapper) {
         this.memberListVo = memberListVo;
         this.listCount = adminMapper.countMemberList(
                 memberListVo.getCategory()
