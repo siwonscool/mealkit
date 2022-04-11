@@ -52,9 +52,8 @@ public class MemberController {
 //	멤버 회원가입 아이디 체크
 	@PostMapping("/registerCheckId")
 	@ResponseBody
-	public int registerCheckId(@RequestParam String id) {
-		int result = memberService.checkRegisterId(id);
-		return result;
+	public MemberVo registerCheckId(@RequestParam String id) {
+		return memberService.findMemberInfo(id);
 	}
 	
 //	멤버 회원가입

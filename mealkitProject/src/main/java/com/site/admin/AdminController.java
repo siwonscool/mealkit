@@ -1,9 +1,7 @@
 package com.site.admin;
 
-import java.util.Map;
-
-import com.site.admin.vo.AdminMemberListVo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.site.admin.vo.AdminMemberPageVo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,15 +15,12 @@ import com.site.vo.MemberVo;
 
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
 	
-	@Autowired
-	private AdminService adminService;
+	private final AdminService adminService;
+	private final MemberService memberService;
 	
-	@Autowired
-	private MemberService memberService;
-	
-//	회원정보리스트
 	@GetMapping("/memberList")
 	public String memberList() {
 		return "/admin/member_list";
@@ -33,14 +28,13 @@ public class AdminController {
 	
 	@PostMapping("/memberList")
 	@ResponseBody
-	public void memberList(AdminMemberListVo memberListVo, Model model){
-		model.addAttribute("memberListMap", adminService.memberList(memberListVo));
+	public void memberList(AdminMemberPageVo memberPageVo, Model model){
+		model.addAttribute("memberListNumberingDto", adminService.memberList(memberPageVo));
 	}
-//	회원정보 수정
+
 	@GetMapping("/memberUpdate")
 	public String updateMember(@RequestParam String id, Model model) {
-		MemberVo memberVo = memberService.findMemberInfo(id);
-		model.addAttribute(memberVo);
+		model.addAttribute(memberService.findMemberInfo(id));
 		return "/admin/memberUpdate";
 	}
 	
@@ -50,37 +44,31 @@ public class AdminController {
 		return memberService.updateMemberInfo(memberVo);
 	}
 	
-//	회원정보 수정 아이디 체크
 	@RequestMapping("/memberCheckId")
 	@ResponseBody
-	public int checkMemberId(@RequestParam String id) {
-		return memberService.checkRegisterId(id);
+	public MemberVo checkMemberId(@RequestParam String id) {
+		return memberService.findMemberInfo(id);
 	}
 	
-//	회원정보 삭제
 	@RequestMapping("/memberDelete")
 	public String deleteMember(@RequestParam String id) {
 		adminService.deleteMember(id);
 		return "/admin/memberList";
 	}
 
-//	챠트
 	@GetMapping("/chart")
-	public String chart(Model model) {
-		Map<String, Object> orderView = adminService.orderView();
-		model.addAttribute("orderView", orderView);
+	public String viewOrderChart(Model model) {
+		model.addAttribute("orderView", adminService.viewOrderChart());
 		return "/admin/chart";
 	}
-//	검색부분
+
 	@PostMapping("/Search")
-	public String Search(@RequestParam String datepicker1,
-						@RequestParam String datepicker2,
-						Model model) {
-		Map<String, Object> orderView = adminService.orderSelectView(datepicker1,datepicker2);
-		model.addAttribute("orderView", orderView);
+	public String SearchOrderChart(@RequestParam String datepicker1,
+								   @RequestParam String datepicker2,
+								   Model model) {
+		model.addAttribute("orderView", adminService.viewOrderPeriod(datepicker1,datepicker2));
 		model.addAttribute("datepicker1",datepicker1);
 		model.addAttribute("datepicker2",datepicker2);
-		
 		return "/admin/chart";
 	}
 }
