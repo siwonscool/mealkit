@@ -9,7 +9,7 @@ import com.site.vo.ReviewVo;
 
 public interface OrderService {
 
-	void insertOrderInfo(String cartId, String deliveryArea, String recipient, String sender);
+	void insertOrderInfo(String cartId, OrderVo orderVo);
 
 	void updateCartStatus(String cartId);
 

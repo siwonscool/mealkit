@@ -23,8 +23,8 @@ public class OrderServiceImpl implements OrderService {
 	private OrderMapper orderMapper;
 
 	@Override
-	public void insertOrderInfo(String cartId, String deliveryArea, String recipient, String sender) {
-		orderMapper.insertOrderInfo(cartId, deliveryArea,recipient,sender);
+	public void insertOrderInfo(String cartId, OrderVo orderVo) {
+		orderMapper.insertOrderInfo(cartId, orderVo);
 	}
 
 	@Override

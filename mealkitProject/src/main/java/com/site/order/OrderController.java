@@ -58,7 +58,7 @@ public class OrderController {
 		session.setAttribute("session_payflag", "success");
 		String[] selectedCartList = cartIds.split("/");
 		for(int i = 0; i < selectedCartList.length; i++) {
-			orderService.insertOrderInfo(selectedCartList[i], orderVo.getDeliveryArea(),orderVo.getRecipient(), orderVo.getSender());
+			orderService.insertOrderInfo(selectedCartList[i], orderVo);
 			orderService.updateCartStatus(selectedCartList[i]);
 			orderService.updateProductQuantity(selectedCartList[i]);
 		}
