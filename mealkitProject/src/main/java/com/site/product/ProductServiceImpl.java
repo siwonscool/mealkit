@@ -85,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void productRateUpdate(int product_id) {
+	public void updateProductRate(int product_id) {
 		productMapper.productRateUpdate(product_id);
 	}
 

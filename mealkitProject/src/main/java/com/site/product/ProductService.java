@@ -21,7 +21,7 @@ public interface ProductService {
 
 	int productDelete(String id);
 
-	void productRateUpdate(int product_id);
+	void updateProductRate(int product_id);
 
 	ArrayList<ProductVo> productTopList();
 

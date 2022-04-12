@@ -1,10 +1,10 @@
 package com.site.member;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.site.vo.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -75,12 +75,12 @@ public class MemberController {
 //  마이페이지
 	@RequestMapping("/mypage")
 	public String mypage(HttpSession session,Model model) {
-		String id = (String)session.getAttribute("session_id");
+		String memberId = (String)session.getAttribute("session_id");
 		// 주문리스트 출력 db 접근
-		Map<String, Object> order_map = orderService.selectOrderList(id);
+		ArrayList<OrderVo> order_map = orderService.findOrderListToMember(memberId,"member");
 		
 		// 게시판리스트 출력 db 접근
-		ArrayList<One_BoardVo> list = one_boardService.MemberBoardList(id);
+		ArrayList<One_BoardVo> list = one_boardService.MemberBoardList(memberId);
 		
 		model.addAttribute("mbList", list);
 		model.addAttribute("order_map", order_map);

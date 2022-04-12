@@ -3,11 +3,11 @@ package com.site.order;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import com.site.cart.vo.SelectedProductListVo;
+import com.site.vo.OrderVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -40,9 +40,9 @@ public class OrderController {
     private String path;
 	
 	@RequestMapping("/order")
-	public String selectedProductToOrderInCart(@RequestParam List<String> selectedProductList, HttpSession session, Model model) {
+	public String selectedProductToOrderInCart(@RequestParam List<String> selectedCartIdList, HttpSession session, Model model) {
 		String session_id = (String) session.getAttribute("session_id");
-		SelectedProductListVo selectedProductListVo = cartService.selectedProductListInCart(selectedProductList);
+		SelectedProductListVo selectedProductListVo = cartService.selectedProductListInCart(selectedCartIdList);
 		model.addAttribute("selectedProductListVo",selectedProductListVo);
 		MemberVo memberVo = memberService.findMemberInfo(session_id);
 		String tel1 = memberVo.getTel().substring(3,7);
@@ -54,83 +54,60 @@ public class OrderController {
 	}
 	
 	@RequestMapping("/success")
-	public String orderOk(Model model,
-						  @RequestParam String cart_id,
-						  @RequestParam String delivery_area,
-						  @RequestParam String recipient,
-						  @RequestParam String sender,
-						  HttpSession session) {
+	public String paymentProduct(OrderVo orderVo, @RequestParam String cartIds, HttpSession session) {
 		session.setAttribute("session_payflag", "success");
-		System.out.println("cart_id = "+cart_id);
-		System.out.println("delivery_area = "+delivery_area);
-		String[] cart_list = cart_id.split("/");
-		for(int i=0; i<cart_list.length; i++) {
-			orderService.orderSuccessInsert(cart_list[i],delivery_area,recipient,sender);//결제완료시 ordered테이블 정보담김
-			orderService.cartStatusUpdate(cart_list[i]);//결제완료시 cart테이블 status변경
-			orderService.productQuantityUpdate(cart_list[i]);//product의 Quantity(cart의 수량만큼 -1)
+		String[] selectedCartList = cartIds.split("/");
+		for(int i = 0; i < selectedCartList.length; i++) {
+			orderService.insertOrderInfo(selectedCartList[i], orderVo.getDeliveryArea(),orderVo.getRecipient(), orderVo.getSender());
+			orderService.updateCartStatus(selectedCartList[i]);
+			orderService.updateProductQuantity(selectedCartList[i]);
 		}
 		
 		return "/order/orderOk";
 	}
 
-	
 	@RequestMapping("/deliveryStart")
 	@ResponseBody
-	public void OderDeliveryStart(@RequestParam String delivery_num,
-								  @RequestParam String id) {
-		//주문 status 2 로 수정, 송장번호 추가
-		orderService.deliveryStartupdate(id,delivery_num);
-		System.out.println("del_num = "+delivery_num);
-		System.out.println("id = "+id);
+	public void startDelivery(@RequestParam String delivery_num, @RequestParam String id) {
+		orderService.updateStatusDeliveryNum(id, delivery_num);
 	}
 	
-	//구매 확정 버튼 클릭시
 	@RequestMapping("buyAccess")
 	@ResponseBody
-	public void orderBuyAccess(@RequestParam String id) {
-		System.out.println("id  : "+id);
-		orderService.buyAccessUpdate(id);
+	public void finalBuyAccess(@RequestParam String orderId) {
+		orderService.updateStatus6FinalBuy(orderId);
 	}
-	
-	
-	/** 리뷰시작 **/
-	
+
 	@GetMapping("reviewWrite")
-	public String reviewWriteInsert(@RequestParam String product_id,Model model) {
-		model.addAttribute("product_id", product_id);
+	public String reviewWriteInsert(@RequestParam String productId, Model model) {
+		model.addAttribute("product_id", productId);
 		model.addAttribute("result", 0);
 		return "order/review_write";
 	}
-	
-	
+
 	@PostMapping("reviewWrite")
 	public String reviewWriteInsert(ReviewVo reviewVo,
 								   HttpSession session,
 								   MultipartHttpServletRequest multi,
 								   Model model) {
+		String memberId = (String)session.getAttribute("session_id");
+		reviewVo.setMemberId(memberId);
+
+		orderService.insertReviewInfo(reviewVo);
+		productService.updateProductRate(reviewVo.getProductId());
 		
-		//사진을 제외한 review 정보 등록
-		reviewVo.setMember_id((String)session.getAttribute("session_id"));
-		orderService.reviewWriteInsert(reviewVo);
-		productService.productRateUpdate(reviewVo.getProduct_id());
-		
-		//reviewPicture 테이블에 사진저장
 		List<MultipartFile> fileList = multi.getFiles("file");
-        String src = multi.getParameter("src");
 
         for (MultipartFile mf : fileList) {
-            String originFileName = mf.getOriginalFilename(); // 원본 파일 명
-            long fileSize = mf.getSize(); // 파일 사이즈
+            String originFileName = mf.getOriginalFilename();
             long time = System.currentTimeMillis();
             String safeFile = path + time + originFileName;
             try {
                 mf.transferTo(new File(safeFile));
-                orderService.reviewPictureInsert(time + originFileName,reviewVo.getProduct_id());
+                orderService.insertReviewPicture(time + originFileName,reviewVo.getProductId());
             } catch (IllegalStateException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

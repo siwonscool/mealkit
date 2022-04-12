@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.site.vo.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -99,7 +100,7 @@ public class StoreController {
 	public String o_mypage(HttpSession session, Model model) {
 		String id = (String) session.getAttribute("session_id");
 		//주문 출력 DB 접근
-		Map<String, Object> order_map = orderService.selectStoreOrderList(id);
+		ArrayList<OrderVo> order_map = orderService.findOrderListToMember(id,"store");
 		//게시판 출력 DB 접근
 		ArrayList<One_BoardVo> list = one_boardService.MemberBoardList(id);
 		model.addAttribute("order_map", order_map);
