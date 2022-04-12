@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 
 import com.site.vo.OrderVo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,29 +14,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.site.one_board.One_BoardService;
+import com.site.oneBoard.OneBoardService;
 import com.site.order.OrderService;
 import com.site.vo.MemberVo;
 import com.site.vo.One_BoardVo;
 
 @Controller
 @RequestMapping("/member")
+@RequiredArgsConstructor
 public class MemberController {
 
-	@Autowired
-	private MemberService memberService;
-	
-	@Autowired
-	private One_BoardService one_boardService;
-	
-	@Autowired
-	private OrderService orderService;
+	private final MemberService memberService;
+	private final OneBoardService oneBoardService;
+	private final OrderService orderService;
 
-//	멤버 로그인
 	@PostMapping("/login")
 	@ResponseBody
 	public int login(@RequestParam String id, @RequestParam String pw, HttpSession session) {
-		int result = 0; // 로그인 실패 시
+		int loginFlag = 0;
 		MemberVo memberVo = memberService.login(id, pw);
 		if (memberVo != null) {
 			session.setAttribute("session_nickname", memberVo.getNickname());
@@ -44,67 +39,51 @@ public class MemberController {
 			session.setAttribute("session_flag", "success");
 			session.setAttribute("session_user", "member");
 			session.setAttribute("session_rank", memberVo.getRank());
-			result = 1; // 로그인 성공 시
+			loginFlag = 1;
 		}
-		return result;
+		return loginFlag;
 	}
 
-//	멤버 회원가입 아이디 체크
 	@PostMapping("/registerCheckId")
 	@ResponseBody
-	public MemberVo registerCheckId(@RequestParam String id) {
+	public MemberVo checkRegisterId(@RequestParam String id) {
 		return memberService.findMemberInfo(id);
 	}
 	
-//	멤버 회원가입
 	@PostMapping("/register")
 	@ResponseBody
 	public int register(MemberVo memberVo) {
-		int result = memberService.register(memberVo);
-		return result;
+		return memberService.registerMember(memberVo);
 	}
 
-//○○○○○○○○○○○○○○○○○○○○○○○○○○○시원○○○○○○○○○○○○○○○○○○○○○○○○○○○
-//	배송조회 팝업
 	@GetMapping("/popup")
-	public String popup(@RequestParam String delivery_num,Model model) {
-		model.addAttribute("delivey_num", delivery_num);
+	public String deliveryViewPopup(@RequestParam String deliveryNum, Model model) {
+		model.addAttribute("delivery_num", deliveryNum);
 		return "popup/popup";
 	}
 
-//  마이페이지
 	@RequestMapping("/mypage")
-	public String mypage(HttpSession session,Model model) {
+	public String mypage(HttpSession session, Model model) {
 		String memberId = (String)session.getAttribute("session_id");
-		// 주문리스트 출력 db 접근
-		ArrayList<OrderVo> order_map = orderService.findOrderListToMember(memberId,"member");
-		
-		// 게시판리스트 출력 db 접근
-		ArrayList<One_BoardVo> list = one_boardService.MemberBoardList(memberId);
-		
-		model.addAttribute("mbList", list);
-		model.addAttribute("order_map", order_map);
+		ArrayList<OrderVo> orderList = orderService.findOrderListToMember(memberId,"member");
+		ArrayList<One_BoardVo> boardList = oneBoardService.findMemberBoardList(memberId);
+		model.addAttribute("mbList", boardList);
+		model.addAttribute("order_map", orderList);
 		return "/member/mypage";
 	}
-//○○○○○○○○○○○○○○○○○○○○○○○○○○○끝○○○○○○○○○○○○○○○○○○○○○○○○○○○○
 
-//★★★★★★★★★★★★★★★★★★★★★명수★★★★★★★★★★★★★★★★★★★★★
-//	회원정보 수정페이지 이동
 	@GetMapping("/update")
 	public String update(HttpSession session, Model model) {
-		String id = (String) session.getAttribute("session_id");
-		MemberVo memberVo = memberService.findMemberInfo(id);
+		String memberId = (String) session.getAttribute("session_id");
+		MemberVo memberVo = memberService.findMemberInfo(memberId);
 		model.addAttribute("memberVo", memberVo);
 		return "member/update";
 	}
 
-//	회원정보 수정
 	@PostMapping("/update")
 	@ResponseBody
 	public int update(MemberVo memberVo) {
-		int result = memberService.updateMemberInfo(memberVo);
-		return result;
+		return memberService.updateMemberInfo(memberVo);
 	}
-//★★★★★★★★★★★★★★★★★★★★★끝★★★★★★★★★★★★★★★★★★★★★★
 
 }

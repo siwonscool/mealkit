@@ -69,7 +69,6 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Top3ReviewVo Top3reviewList() {
-		Map<String, Object> map = new HashMap<>();
 		ArrayList<ReviewVo> top3ReviewList = orderMapper.findTop3ReviewList();
 		List<String> tep3ReviewPictureList = new ArrayList<>();
 

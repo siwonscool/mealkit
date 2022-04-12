@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.site.one_board.One_BoardService;
+import com.site.oneBoard.OneBoardService;
 import com.site.order.OrderService;
 import com.site.vo.One_BoardVo;
 import com.site.vo.ProductVo;
@@ -30,7 +30,7 @@ public class StoreController {
 	private StoreService storeService;
 	
 	@Autowired
-	private One_BoardService one_boardService;
+	private OneBoardService one_boardService;
 	
 	@Autowired
 	private OrderService orderService;
@@ -78,7 +78,7 @@ public class StoreController {
 		model.addAttribute("sVo", storeVo);
 		model.addAttribute("map", map);
 		// 게시판 출력 DB접근
-		ArrayList<One_BoardVo> list = one_boardService.MemberBoardList(id);
+		ArrayList<One_BoardVo> list = one_boardService.findMemberBoardList(id);
 		model.addAttribute("sbList", list);
 		return "/store/product_mypage";
 	}
@@ -102,7 +102,7 @@ public class StoreController {
 		//주문 출력 DB 접근
 		ArrayList<OrderVo> order_map = orderService.findOrderListToMember(id,"store");
 		//게시판 출력 DB 접근
-		ArrayList<One_BoardVo> list = one_boardService.MemberBoardList(id);
+		ArrayList<One_BoardVo> list = one_boardService.findMemberBoardList(id);
 		model.addAttribute("order_map", order_map);
 		model.addAttribute("sbList", list);
 		return "/store/order_mypage";
