@@ -44,11 +44,8 @@ public class StoreServiceImpl implements StoreService {
 	}
 	
 	@Override
-	public Map<String, Object> storeProductList(String id) {
-		Map<String,Object> map = new HashMap<String, Object>();
-		ArrayList<ProductVo> pList = storeMapper.storeProductList(id);
-		map.put("pList", pList);
-		return map;
+	public ArrayList<ProductVo> storeProductList(String storeId) {
+		return storeMapper.storeProductList(storeId);
 	}
 
 	@Override

@@ -11,7 +11,7 @@
 <!-- parameterType은 받는 매개변수 형 -->
 
 	<!-- 아이디만으로 찾기 -->
-	<select id="selectId" resultType="com.site.vo.MemberVo">
+	<select id="findMemberInfo" resultType="com.site.vo.MemberVo">
 		select * from member where id=#{id}
 	</select>
 	
