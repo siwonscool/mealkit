@@ -83,7 +83,7 @@
 	</select>
 
 	<!-- List -->
-	<select id="tableList" resultType="com.site.vo.ChartVo">
+	<select id="findTableList" resultType="com.site.vo.ChartVo">
 		select name,
 		       totalPrice,
 		       totalAmount,
@@ -104,7 +104,7 @@
 	</select>
 
 	<!-- summary -->
-	<select id="tableSummary" resultType="com.site.vo.ChartVo">
+	<select id="findTableSummary" resultType="com.site.vo.ChartVo">
 		select sum(합계금액) totalPrice,
 		       sum(수량) totalAmount,
 		       환불여부 refund_flag

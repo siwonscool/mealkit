@@ -21,36 +21,36 @@ public class AdminController {
 	private final AdminService adminService;
 	private final MemberService memberService;
 	
-	@GetMapping("/memberList")
+	@GetMapping("/member/list")
 	public String memberList() {
-		return "/admin/member_list";
+		return "/admin/memberList";
 	}
 	
-	@PostMapping("/memberList")
+	@PostMapping("/member/list")
 	@ResponseBody
 	public void memberList(AdminMemberPageVo memberPageVo, Model model){
 		model.addAttribute("memberListNumberingDto", adminService.memberList(memberPageVo));
 	}
 
-	@GetMapping("/memberUpdate")
+	@GetMapping("/member/update")
 	public String updateMember(@RequestParam String id, Model model) {
 		model.addAttribute(memberService.findMemberInfo(id));
 		return "/admin/memberUpdate";
 	}
 	
-	@PostMapping("/memberUpdate")
+	@PostMapping("/member/update")
 	@ResponseBody
 	public int updateMember(MemberVo memberVo) {
 		return memberService.updateMemberInfo(memberVo);
 	}
 	
-	@RequestMapping("/memberCheckId")
+	@RequestMapping("/member/checkId")
 	@ResponseBody
 	public MemberVo checkMemberId(@RequestParam String id) {
 		return memberService.findMemberInfo(id);
 	}
 	
-	@RequestMapping("/memberDelete")
+	@RequestMapping("/member/delete")
 	public String deleteMember(@RequestParam String id) {
 		adminService.deleteMember(id);
 		return "/admin/memberList";
@@ -62,7 +62,7 @@ public class AdminController {
 		return "/admin/chart";
 	}
 
-	@PostMapping("/Search")
+	@PostMapping("/search")
 	public String SearchOrderChart(@RequestParam String datepicker1,
 								   @RequestParam String datepicker2,
 								   Model model) {
