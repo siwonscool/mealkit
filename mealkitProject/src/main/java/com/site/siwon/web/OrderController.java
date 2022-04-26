@@ -1,5 +1,6 @@
 package com.site.siwon.web;
 
+import com.site.cart.CartService;
 import com.site.member.MemberService;
 import com.site.siwon.adaptor.EmptyJsonResponse;
 import com.site.siwon.adaptor.order.OrderProductAdaptor;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final CartService cartService;
     private final MemberService memberService;
     private final ProductService productService;
 
