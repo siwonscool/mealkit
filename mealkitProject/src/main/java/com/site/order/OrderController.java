@@ -44,12 +44,12 @@ public class OrderController {
 		String session_id = (String) session.getAttribute("session_id");
 		SelectedProductListVo selectedProductListVo = cartService.selectedProductListInCart(selectedCartIdList);
 		model.addAttribute("selectedProductListVo",selectedProductListVo);
-		MemberVo memberVo = memberService.findMemberInfo(session_id);
+		/*MemberVo memberVo = memberService.findMemberInfo(session_id);
 		String tel1 = memberVo.getTel().substring(3,7);
 		String tel2 = memberVo.getTel().substring(7,11);
 		model.addAttribute("memberVo",memberVo);
 		model.addAttribute("tel1",tel1);
-		model.addAttribute("tel2",tel2);
+		model.addAttribute("tel2",tel2);*/
 		return "/member/order";
 	}
 	

@@ -1,7 +1,6 @@
-package com.site.orderSiwon.order.controller.param;
+package com.site.siwon.web.param;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class OrderParam {

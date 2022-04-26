@@ -1,7 +1,7 @@
-package com.site.orderSiwon.order.service;
+package com.site.siwon.service;
 
-import com.site.orderSiwon.adaptor.order.OrderProductAdaptor;
-import com.site.orderSiwon.domain.OrderProduct;
+import com.site.siwon.adaptor.order.OrderProductAdaptor;
+import com.site.siwon.domain.order.OrderProduct;
 
 public class OrderService {
     public OrderProductAdaptor orderDirect(int productId, int stock) {

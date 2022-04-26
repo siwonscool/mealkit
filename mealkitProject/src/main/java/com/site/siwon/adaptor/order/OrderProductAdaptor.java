@@ -1,4 +1,4 @@
-package com.site.orderSiwon.adaptor.order;
+package com.site.siwon.adaptor.order;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
