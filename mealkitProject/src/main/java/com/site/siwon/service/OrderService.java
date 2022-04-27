@@ -1,16 +1,19 @@
 package com.site.siwon.service;
 
-import com.site.siwon.adaptor.order.OrderProductAdaptor;
-import com.site.siwon.domain.order.OrderProduct;
+import com.site.siwon.domain.order.OrderRepository;
+import com.site.siwon.web.dto.OrderSaveRequestDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Service
+@RequiredArgsConstructor
 public class OrderService {
-    public OrderProductAdaptor orderDirect(int productId, int stock) {
-        //미완성
-    }
 
-    private OrderProductAdaptor getOrderProductAdaptor(final OrderProduct orderProduct){
-        return OrderProductAdaptor.builder()
-                .id(orderProduct.getId())
-                .build();
+    private final OrderRepository orderRepository;
+
+    @Transactional
+    public Long save(OrderSaveRequestDto requestDto) {
+        return orderRepository.save(requestDto.toEntity()).getId();
     }
 }
